@@ -1,5 +1,5 @@
 //1
-function conwerter(firstNumber,secondNumber){
+function converter(firstNumber,secondNumber){
     firstNumber = prompt('Введите число:','');
     secondNumber = prompt('В какую систему счисления конвертируем???','');
     if (!isNaN(firstNumber) && !isNaN(secondNumber)){
@@ -8,7 +8,7 @@ function conwerter(firstNumber,secondNumber){
         console.error("Некорректный ввод!")
     }
 }
-conwerter();
+converter();
 
 //2
 const isValidNumber = (string) => {
