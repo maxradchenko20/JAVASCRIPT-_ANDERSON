@@ -1,18 +1,18 @@
 //1
-function converter(firstNumber,secondNumber){
-    firstNumber = prompt('Введите число:','');
-    secondNumber = prompt('В какую систему счисления конвертируем???','');
-    if (!isNaN(firstNumber) && !isNaN(secondNumber)){
+function conwerter() {
+    const firstNumber = prompt('Введите число:','');
+    const secondNumber = prompt('В какую систему счисления конвертируем???','');
+    if (!isNaN(firstNumber) && !isNaN(secondNumber)) {
         console.log(parseInt(firstNumber).toString(secondNumber));
-    }else {
+    } else {
         console.error("Некорректный ввод!")
     }
 }
-converter();
+conwerter();
 
 //2
 const isValidNumber = (string) => {
-    return !Number.isNaN(Number(string));
+    return !isNaN(string);
 };
 
 const aggregator1 = () => {
@@ -23,10 +23,10 @@ const aggregator1 = () => {
     }
     const secondNumber = prompt('second');
     if (!isValidNumber(secondNumber)) {
-        console.error('is not a valid number');
-        return;
+        const errorMessage = ('is not a valid number');
+        console.log(errorMessage)
     }
 
-    console.log(`Ответ: ${+firstNumber + +secondNumber},${firstNumber / secondNumber}`);
+    console.log('Ответ:', Number(firstNumber) + Number(secondNumber), Number(firstNumber)/Number(secondNumber));
 }
 aggregator1();
