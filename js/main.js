@@ -1,45 +1,49 @@
-/*
-1) написать функцию которая поверхностно должна сравнить 2 обьекта , резульат true если обьекты идентичны и false если разные
-*/
-const isEqual = (firstObj, secondObj) => {
-    // // return Object.keys(firstObj).every(key => {
-    //     return firstObj[key] === secondObj[key];
-    // });
-    return JSON.stringify(firstObj) === JSON.stringify(secondObj);
-};
-const data = {a: 1,b: 1,},
-      data2 = {a: 1,b: 1},
-      data3 = {a: 1,b: 2};
-
-console.log(isEqual(data,data2));
-console.log(isEqual(data,data3));
-
-/*
-2) Написать функц которая делает поверхностную првоерку обьекта на пустоту
-пример
-({}) => true
-({a: undefined}) => true
-({a: 1}) => false */
-
-const isEmpty = (object) => {
-    return  JSON.stringify(object) === '{}';
-}
-const data = { a: 1, b: undefined };
-const data2 = { a: undefined };
-
-console.log(isEmpty(data)); //false
-console.log(isEmpty(data2)); //true
+//1)
+// function palindrome(str) {
+//    str = str.toLowerCase().replace(/[^a-z0-9]+/g,"");
+//    return str === [...str].reverse().join("");
+//  }
+//    palindrome();
 
 
-/*
-3)Напишите функц которая возвращает вложеный массив вида `[[key, value], [key, value]]`,
-Рез ({a:1, b:2}) => [['a',1],['b',2]]
+//2))
+// const vowelsArr = ['a', 'e', 'i', 'o', 'u'];
+// const findVowels = str => {
+//    return [...str].reduce((acc, cur) => {
+//      const isInclude = vowelsArr.includes(cur.toLowerCase());
+//      if(isInclude){
+//          return acc += 1;
+//      }
+//      return acc;
+//    }, 0);
+// };
+//   findVowels();
 
- */
 
-const makePairs = (object) => {
-    return Object.entries(object);
-};
-const data = {a: 1, b: 2 };
-console.log(makePairs(data)); // [['a', 1], ['b', 2]]
-
+//3))
+// Array.prototype.superFilter = function (predicate) {
+//   const result = [];
+//
+//   if (!this.length) {
+//     return [];
+//   }
+//
+//   if (typeof predicate !== 'function') {
+//     console.error(`${predicate} is not a function`);
+//     return [];
+//   }
+//
+//   for (let i = 0; i < this.length; i++) {
+//     const predicateResult = predicate(this[i], i, this);
+//
+//     if (predicateResult) {
+//       result.push(this[i]);
+//     }
+//   }
+//
+//   return result;
+// }
+//  const array = [1, null, Number.NaN, 'a', '', undefined, Infinity, 1n, 0, false, true, {}, NaN];
+//  const stingArray = [1, 2, 3, 4, 5, 6, 7];
+//  const predicate = (el) => el > 3;
+//  console.log(stingArray.superFilter(predicate))
