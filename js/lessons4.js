@@ -1,91 +1,77 @@
-//1))
+
 /*
- const entryPoint = 'a.b.c.d';
+const button = document.querySelector('.button');
 
- function objectHell(str) {
-   const initialArr = str.split('.').reverse();
-   return initialArr.reduce((acc,current, index) => {
-     if(index === 0) {
-       acc = {[current]: null}
-       return acc;
-     }
-     acc = {
-       [current]: acc
-     }
-     return acc
-   }, {})
- }
+  button.addEventListener('click', () => {
+    Promise.resolve().then(() => console.log('Microtask 1'));
+   console.log('Listener 1');
+ })
 
- console.log(objectHell(entryPoint));
+ button.addEventListener('click', () => {
+    Promise.resolve().then(() => console.log('Microtask 2'));
+    console.log('Listener 2');
+   });
 
- */
+  Код виповнюється синхронно (по строково). Спочатку навішується той 'addEventListener' який перший по коду, потім наступний або наступні.
+  Коли ми клікаємо, то спочатку викликається той 'addEventListener' який перший по коду, і додаєтся у 'Event loop'. Далі додаються всі наступні.
+  Потім в кожному 'addEventListener' в першу чергу виконуються всі синхронні дії(тобто console.log). Далі викинуються асинхронні дії такі як: Promise, setTimeout;
+  Як би ми юзали конструкцію async/await або через ф-ції генератори (function*) і ключове слово yield то наш код виконувався послідновно.
+
+  Listener 1
+  Microtask 1
+  Listener 2
+  Microtask 2
+     */
+
 /*
- const entryPoint = 'x.x.x.x.x.x.x.x.x.xx.x.x.xxx.x';
+const MAX_RANDOM_RANGE = 2000;
 
- function objectHell(str) {
-   const initialArr = str.split('.').reverse();
-   return initialArr.reduce((acc,current, index) => {
-     if(!index) {
-       return { [current]: null };
-     }
-     return { [current]: acc };
-   }, {})
- }
- console.log(objectHell(entryPoint));
-
- */
-/*
-const entryPoint = 'a.b.c.d';
-
-function objectHell(str) {
-  return str.split('.').reverse().reduce((acc,current, index) => {
-    return !index ? { [current]: null } :  { [current]: acc };
-  }, {})
-}
-console.log(objectHell(entryPoint));
-(objectHell(entryPoint));
-
-
- */
-
-//2))
-/*
-function debounceFunction(callback, delay) {
-  let timeout;
-  return () => {
-    clearTimeout(timeout);
-    timeout = setTimeout(callback, delay);
-  };
+const getRandomDelay = () => {
+  return Math.floor(Math.random() * MAX_RANDOM_RANGE) + 1;
 }
 
-const log100 = () => console.log(1000);
-const instance = debounceFunction(log100, 1000);
+const request = (url) => {
+  return new Promise((resolve) => {
+    const delayTime = getRandomDelay();
 
-setTimeout(instance, 1000);
+    const callback = () => {
+      resolve(url)
+    }
 
- */
-
-//3)
-/*
-
-
-const person = {
-  name: 'Maxim'
+    setTimeout(callback, delayTime);
+  });
 }
 
-function info(phone, email) {
-  console.log(`Name: ${this.name}, Tell: ${phone}, Email: ${email}`);
-}
+const resolveAll = (resolve) => async (allPromises, currentPromise, index, promises) => {
+  let  { result = [], count = 0 } = await allPromises;
+  result[index] = await currentPromise;
 
-function bind(fn, context, ...rest) {
-  return function(...args) {
-    // return fn.apply(context, rest.concat(args));
-    return fn.call(context, ...rest.concat(args));
+  if(promises.length === ++count) {
+    return resolve(result);
   }
+
+  return { result, count };
 }
 
-bind(info, person)('093-600-4444', 'maxrad@gmail.com');
-bind(info, person, '093-600-4444')('maxrad@gmail.com');
-bind(info, person, '093-600-4444', 'maxrad@gmail.com')();
+const willGetUrls = (urls) =>  {
+  return new Promise(resolve => {
+    urls
+      .map(request)
+      .reduce(resolveAll(resolve), {});
+  });
+}
+
+const urls = ["maxim", "valik", "andre", "slava"];
+willGetUrls(urls).then(console.log);
 
  */
+
+
+
+
+
+
+
+
+
+
