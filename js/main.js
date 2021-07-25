@@ -1,32 +1,173 @@
-//1
-function conwerter() {
-    const firstNumber = prompt('Введите число:','');
-    const secondNumber = prompt('В какую систему счисления конвертируем???','');
-    if (!isNaN(firstNumber) && !isNaN(secondNumber)) {
-        console.log(parseInt(firstNumber).toString(secondNumber));
-    } else {
-        console.error("Некорректный ввод!")
-    }
+/*
+class User {
+  name = '';
+  #isAdmin = false;
+  constructor(name, isAdmin){
+    this.name = name;
+    this.#isAdmin = isAdmin;
+  }
+  getName(){
+    return this.name
+  }
+  getIsAdmin(){
+    return this.#isAdmin
+  }
 }
-conwerter();
+class Admin extends User {
+  constructor(name) {
+    super(name, true);
+  }
+  getName() {
+    return `adminName is ${super.getName()}`;
+  }
+  getIsAdmin() {
+    return true;
+  }
+}
 
-//2
-const isValidNumber = (string) => {
-    return !isNaN(string);
+class DefaultUser extends User {
+  constructor(name) {
+    super(name, false);
+  }
+  getName() {
+    return `userName ${super.getName()}`;
+  }
+  getIsAdmin() {
+    return false;
+  }
+  updateName(newName){
+    this.name = newName;
+  }
+}
+
+const admin = new Admin('Alexandr')
+console.log(admin.getName());
+console.log(admin.getIsAdmin());
+
+const defaultUser = new DefaultUser('Max');
+console.log(defaultUser.getName());
+console.log(defaultUser.getIsAdmin());
+defaultUser.updateName('Max Anderson');
+console.log(defaultUser.getName());
+
+ */
+/*
+function User(name = '', isAdmin = false) {
+  this.name = name;
+  this.isAdmin = isAdmin;
 };
 
-const aggregator1 = () => {
-    const firstNumber = prompt('first');
-    if (!isValidNumber(firstNumber)) {
-        console.error('is not a valid number');
-        return;
-    }
-    const secondNumber = prompt('second');
-    if (!isValidNumber(secondNumber)) {
-        const errorMessage = ('is not a valid number');
-        console.log(errorMessage)
-    }
+User.prototype.getName = function() {
+  return this.name;
+};
 
-    console.log('Ответ:', Number(firstNumber) + Number(secondNumber), Number(firstNumber)/Number(secondNumber));
-}
-aggregator1();
+User.prototype.getIsAdmin = function() {
+  return this.isAdmin;
+};
+
+Admin.prototype = Object.create(User.prototype);
+function Admin(name) {
+  User.call(this, name, true);
+};
+
+Admin.prototype.getName = function() {
+  return `Admin name is ${this.name}`;
+};
+
+Admin.prototype.showIsAdmin = function() {
+  console.log('this is admin');
+};
+
+
+DefaultUser.prototype = Object.create(User.prototype);
+function DefaultUser(name, age = 0) {
+  User.call(this, name, false);
+  this.age = age;
+};
+
+DefaultUser.prototype.getName = function() {
+  return `User name is ${this.name}`;
+};
+
+DefaultUser.prototype.getUserAge = function() {
+  return this.age;
+};
+
+
+const admin = new Admin('Max');
+
+console.log(admin.getName());
+console.log(admin.getIsAdmin());
+admin.showIsAdmin();
+
+console.log('---HINT---');
+
+const defaultUser = new DefaultUser('Pavlenko', 10);
+
+console.log(defaultUser.getName());
+console.log(defaultUser.getIsAdmin());
+console.log(defaultUser.getUserAge());
+ */
+/*
+function User(name = '', isAdmin = false) {
+  this.name = name;
+  this.isAdmin = isAdmin;
+
+  this.getName = function() {
+    return name;
+  }
+
+  this.getIsAdmin = function() {
+  return isAdmin;
+  }
+};
+
+function Admin(name) {
+  User.call(this, name, true);
+
+  this.getName = () => {
+    return `Admin name is ${this.name}`;
+  }
+
+  this.getIsAdmin = () => {
+    return `This isAdmin: ${this.isAdmin}`;
+  }
+
+  this.updateUserName = (newUserName) => {
+    this.name = newUserName;
+  }
+};
+
+function DefaultUser(name, age = 0) {
+  User.call(this, name, false);
+  this.age = age;
+
+  this.getName = () => {
+    return `Name of Default user is ${this.name}`;
+  }
+
+  this.getIsAdmin = () => {
+    return `This is Default user`;
+  }
+
+  this.getAge = () => {
+    return `User age are ${this.age} years old`;
+  }
+
+  this.updateUserAge = (newAge) => {
+    this.age = newAge;
+  }
+
+};
+
+const admin = new Admin('Max');
+
+console.log(admin.getName());
+admin.updateUserName('Super Max');
+console.log(admin.getName());
+
+const defaultUser = new DefaultUser('Pavlenko');
+console.log(defaultUser.getName());
+console.log(defaultUser.getAge());
+ */
+
