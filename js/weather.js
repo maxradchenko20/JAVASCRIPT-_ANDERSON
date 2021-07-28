@@ -25,5 +25,6 @@ function getAndRenderData(city = 'Черкассы', withTitle = false) {
       document.body.appendChild(list);
     })
 }
+
 getAndRenderData('Черкассы', true);
 getAndRenderData(randomCity, true);
