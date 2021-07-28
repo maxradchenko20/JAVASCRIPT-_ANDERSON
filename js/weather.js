@@ -1,30 +1,60 @@
-const cities = ['London', 'Tokio', 'Kyiv', 'Odessa', 'Minsk'];
-const randomCity =  cities[Math.floor(Math.random() * (cities.length))];
+const CITIES = ['London', 'Tokio', 'Kyiv', 'Odessa', 'Minsk'];
+const BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast';
+const DEFAULT_CITY_ID = '710791';
+const DEFAULT_CITY_NAME = 'Черкассы';
+const APP_ID = '82ae147423266d75fdbac9b22aeacb65';
+const CITIES_SIZE = 5;
 
-function getAndRenderData(city = 'Черкассы', withTitle = false) {
-  fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=82ae147423266d75fdbac9b22aeacb65&cnt=5`)
-    .then(function (resp) {
-      return resp.json();
-    })
-    .then(function (data) {
-      if (withTitle) {
-        const title = document.createElement('h3');
-         title.classList.add('title')
-         title.textContent = city;
-        document.body.appendChild(title);
-      }
-      const list = document.createElement('ul');
-      list.classList.add('text');
+const DEFAULT_PARAMS = {  q: DEFAULT_CITY_NAME, appid: APP_ID, cnt: CITIES_SIZE };
 
-      data.list.forEach( (elem) => {
-        console.log(Math.round(elem.main.temp - 273))
-        const listItem =  document.createElement('li');
-        listItem.textContent = Math.round(elem.main.temp - 273) + '°' ;
-        list.appendChild(listItem);
-      })
-      document.body.appendChild(list);
-    })
+const getRandomCity = () => {
+  return CITIES[Math.floor(Math.random() * (CITIES.length))]
 }
 
-getAndRenderData('Черкассы', true);
-getAndRenderData(randomCity, true);
+const getRequestUrl = (params) => {
+  const url = new URL(BASE_URL);
+  url.search = new URLSearchParams(params).toString();
+  return url;
+};
+
+const fetchData = async (params = DEFAULT_PARAMS) => {
+  const response = await fetch(getRequestUrl(params));
+
+  return await response.json();
+};
+
+
+const getTitle = (response) => {
+  return response.city.name;
+};
+
+const getTempInCelsius = (entity) => {
+  return `${Math.round(entity.main.temp - 273) + '°'}`
+}
+
+const renderTitle = (title = DEFAULT_CITY_NAME) => {
+  const h3 = document.createElement('h3');
+  h3.textContent = title;
+  document.body.appendChild(h3);
+}
+
+const renderData = (data) => {
+  renderTitle(getTitle(data));
+
+  const list = document.createElement('ul');
+
+  data.list.forEach((entity) => {
+    const listItem = document.createElement('li');
+    listItem.textContent = getTempInCelsius(entity);
+    list.appendChild(listItem);
+  });
+
+  document.body.appendChild(list);
+}
+
+const renderAfterFetch = (promise) => {
+  promise.then((response) => renderData(response));
+};
+
+renderAfterFetch(fetchData());
+renderAfterFetch(fetchData({ ...DEFAULT_PARAMS, q: getRandomCity() }));
